@@ -2,12 +2,15 @@ namespace SpriteKind {
     export const WFOODW = SpriteKind.create()
     export const Start = SpriteKind.create()
     export const Coin = SpriteKind.create()
+    export const Flower = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite, otherSprite) {
+    music.baDing.play()
     otherSprite.destroy()
     info.changeScoreBy(1)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, location) {
+    music.bigCrash.play()
     lvl += 1
     level_1()
 })
@@ -17,6 +20,37 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile3`, function (sprite, location) {
     info.changeLifeBy(-5)
     game.over(false, effects.melt)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Flower, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    Ghost = sprites.create(img`
+        ........................
+        ........................
+        ........................
+        ..........ffff..........
+        ........ff1111ff........
+        .......fb111111bf.......
+        .......f1111111dbf......
+        ......fd1111111ddf......
+        ......fd111111dddf......
+        ......fd111ddddddf......
+        ......fd111ddddddf......
+        ......fd1dddddddbf......
+        ......fd1dfbddbbff......
+        ......fbddfcdbbcf.......
+        .....ffffccddbfff.......
+        ....fcb1bbbfcffff.......
+        ....f1b1dcffffffff......
+        ....fdfdf..ffffffffff...
+        .....f.f.....ffffff.....
+        ........................
+        ........................
+        ........................
+        ........................
+        ........................
+        `, SpriteKind.Enemy)
+    Ghost.setPosition(Flying_Kin.x + 80, Flying_Kin.y - 80)
+    Ghost.follow(Flying_Kin)
 })
 info.onLifeZero(function () {
     game.over(false, effects.melt)
@@ -47,11 +81,35 @@ function level_1 () {
         tiles.placeOnTile(Coin, value)
         tiles.setTileAt(value, assets.tile`transparency16`)
     }
+    for (let value of tiles.getTilesByType(assets.tile`myTile6`)) {
+        FlowerIDK = sprites.create(img`
+            . . a a a . . . 
+            . a 5 5 5 a . . 
+            a 5 5 5 5 5 a . 
+            . a 5 5 5 a . . 
+            . . a 5 a . . . 
+            . . . 7 . . . . 
+            . . . 7 . . . . 
+            . . . 7 . . . . 
+            `, SpriteKind.Flower)
+        tiles.placeOnTile(FlowerIDK, value)
+        tiles.setTileAt(value, assets.tile`transparency16`)
+    }
     tiles.placeOnRandomTile(Flying_Kin, assets.tile`myTile0`)
     scene.cameraFollowSprite(Flying_Kin)
     tiles.placeOnRandomTile(Chest, assets.tile`myTile`)
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    if (Flying_Kin.y < otherSprite.y) {
+        info.changeScoreBy(3)
+    } else {
+        info.changeLifeBy(-1)
+    }
+})
+let FlowerIDK: Sprite = null
 let Coin: Sprite = null
+let Ghost: Sprite = null
 let Flying_Kin: Sprite = null
 let Chest: Sprite = null
 let lvl = 0
