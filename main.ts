@@ -70,9 +70,9 @@ function level_1 () {
     } else if (lvl == 2) {
         tiles.setCurrentTilemap(tilemap`level6`)
     } else if (lvl == 3) {
-        tiles.setCurrentTilemap(tilemap`level7`)
+        tiles.setCurrentTilemap(tilemap`level18`)
     } else if (lvl == 4) {
-        tiles.setCurrentTilemap(tilemap`level7`)
+        tiles.setCurrentTilemap(tilemap`level17`)
     } else if (lvl == 5) {
         tiles.setCurrentTilemap(tilemap`level7`)
         Boss = sprites.create(img`
@@ -130,7 +130,7 @@ function level_1 () {
         Boss.setPosition(160, 0)
         Boss.follow(Flying_Kin, 50)
     } else if (lvl == 6) {
-        game.over(true, effects.hearts)
+        game.over(true, effects.slash)
     } else {
     	
     }
