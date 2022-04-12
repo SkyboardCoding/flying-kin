@@ -3,6 +3,7 @@ namespace SpriteKind {
     export const Start = SpriteKind.create()
     export const Coin = SpriteKind.create()
     export const Flower = SpriteKind.create()
+    export const MiniEnemy = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite, otherSprite) {
     music.baDing.play()
@@ -21,9 +22,17 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile3`, function (sprite, l
     info.changeLifeBy(-5)
     game.over(false, effects.melt)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.MiniEnemy, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    if (Flying_Kin.y < otherSprite.y) {
+        info.changeScoreBy(3)
+    } else {
+        info.changeLifeBy(-1)
+    }
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Flower, function (sprite, otherSprite) {
     otherSprite.destroy()
-    Boss = sprites.create(img`
+    MiniBoss = sprites.create(img`
         ........................
         ........................
         ........................
@@ -48,9 +57,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Flower, function (sprite, otherS
         ........................
         ........................
         ........................
-        `, SpriteKind.Enemy)
-    Boss.setPosition(Flying_Kin.x + 80, Flying_Kin.y - 80)
-    Boss.follow(Flying_Kin)
+        `, SpriteKind.MiniEnemy)
+    MiniBoss.setPosition(Flying_Kin.x + 80, Flying_Kin.y - 80)
+    MiniBoss.follow(Flying_Kin)
 })
 info.onLifeZero(function () {
     game.over(false, effects.melt)
@@ -61,6 +70,8 @@ function level_1 () {
     } else if (lvl == 2) {
         tiles.setCurrentTilemap(tilemap`level6`)
     } else if (lvl == 3) {
+        tiles.setCurrentTilemap(tilemap`level7`)
+    } else if (lvl == 4) {
         tiles.setCurrentTilemap(tilemap`level7`)
         Boss = sprites.create(img`
             ..................................................
@@ -116,7 +127,7 @@ function level_1 () {
             `, SpriteKind.Enemy)
         Boss.setPosition(160, 0)
         Boss.follow(Flying_Kin, 50)
-    } else if (lvl == 4) {
+    } else if (lvl == 5) {
         game.over(true, effects.hearts)
     } else {
     	
@@ -164,6 +175,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 let FlowerIDK: Sprite = null
 let Coin: Sprite = null
 let Boss: Sprite = null
+let MiniBoss: Sprite = null
 let Flying_Kin: Sprite = null
 let Chest: Sprite = null
 let lvl = 0
