@@ -73,6 +73,8 @@ function level_1 () {
         tiles.setCurrentTilemap(tilemap`level7`)
     } else if (lvl == 4) {
         tiles.setCurrentTilemap(tilemap`level7`)
+    } else if (lvl == 5) {
+        tiles.setCurrentTilemap(tilemap`level7`)
         Boss = sprites.create(img`
             ..................................................
             ..................................................
@@ -127,7 +129,7 @@ function level_1 () {
             `, SpriteKind.Enemy)
         Boss.setPosition(160, 0)
         Boss.follow(Flying_Kin, 50)
-    } else if (lvl == 5) {
+    } else if (lvl == 6) {
         game.over(true, effects.hearts)
     } else {
     	
