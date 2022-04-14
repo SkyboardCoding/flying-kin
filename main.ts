@@ -65,6 +65,7 @@ info.onLifeZero(function () {
     game.over(false, effects.melt)
 })
 function level_1 () {
+    let mySprite: Sprite = null
     if (lvl == 1) {
         tiles.setCurrentTilemap(tilemap`level1`)
     } else if (lvl == 2) {
@@ -130,11 +131,23 @@ function level_1 () {
         Boss.setPosition(160, 0)
         Boss.follow(Flying_Kin, 50)
     } else if (lvl == 6) {
-        game.over(true, effects.slash)
+        game.over(true, effects.smiles)
     } else {
     	
     }
+    for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
+        mySprite.destroy()
+    }
+    for (let value of sprites.allOfKind(SpriteKind.Coin)) {
+        mySprite.destroy()
+    }
+    for (let value of sprites.allOfKind(SpriteKind.Flower)) {
+        mySprite.destroy()
+    }
     for (let value of tiles.getTilesByType(assets.tile`myTile5`)) {
+        for (let value of sprites.allOfKind(SpriteKind.MiniEnemy)) {
+            mySprite.destroy()
+        }
         Coin = sprites.create(img`
             . . . b b b . . 
             . . b 5 5 5 b . 
